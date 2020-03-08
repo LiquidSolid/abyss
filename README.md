@@ -1,24 +1,5 @@
 # abyss
 
-## Project setup
-```
-yarn install
-```
+Репродукция вот этого:
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://liquidsolid.github.io/WebGL-Practice/html/Abyss.html

@@ -1,28 +1,37 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <transition
+      appear
+      name="root-transition"
+      appear-active-class="root-transition-appear-active"
+      appear-class="root-transition-appear"
+    >
+      <the-intro />
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheIntro from './components/TheIntro';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    TheIntro,
+  },
+};
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+@import './assets/styles'
+
+#app
+  perspective: 1000px
+
+.root-transition
+  &-appear-active
+    transition: all .25s ease
+  &-appear
+    transform: translateZ(-20px)
+    opacity: 0
 </style>

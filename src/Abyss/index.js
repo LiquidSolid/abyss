@@ -19,6 +19,7 @@ export default class {
     // Рендер
     this._renderer = new THREE.WebGLRenderer({
       canvas,
+      antialias: this._params.antialiasing,
     });
     this._renderer.setPixelRatio(window.devicePixelRatio);
     // this._renderer.setClearColor(0xffffff);
@@ -63,6 +64,7 @@ export default class {
 
   animate() {
     const delta = this._clock.getDelta();
+    if (delta > 0.5) return;
     this._facility.update(delta);
 
     this._renderer.render(this._scene, this._camera);

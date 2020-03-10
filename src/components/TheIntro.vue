@@ -11,8 +11,9 @@
         <div
           class="the-intro__start-button"
           role="button"
+          @click="$emit('start', { antialiasing, postprocessing, stats })"
         >
-          START
+          СТАРТ
         </div>
       </div>
 
@@ -115,7 +116,7 @@ export default {
     background: $background
     user-select: none
     font-size: 30px
-    $x: 5px
+    $x: 3px
     box-shadow: $x $x 0 black
     transform: translate(-$x / 2, -$x / 2)
     &:active

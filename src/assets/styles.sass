@@ -2,14 +2,22 @@ $background: #363537
 $primary: #00ff7f
 $alt1: #2191FB
 $alt2: #DB3A34
-$abyss: black
+$abyss: #000000
+$tunnel-material-color: #ffffff
+
+:export
+  primaryColor: $primary
+  altColor1: $alt1
+  altColor2: $alt2
+  tunnelMaterialColor: $tunnel-material-color
 
 *
   box-sizing: border-box
   margin: 0
+  user-select: none
 
 body
-  background: $background
+  background: $abyss
   color: $primary
   font-family: 'Fira Code', monospace
   // font-weight: 300

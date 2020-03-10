@@ -76,6 +76,12 @@ export default {
     postprocessing: false,
     stats: false,
   }),
+  created() {
+    Object.keys(this.$data).forEach((key) => {
+      this[key] = !!+window.localStorage.getItem(key);
+      this.$watch(key, (val) => window.localStorage.setItem(key, +val));
+    });
+  },
 };
 </script>
 

@@ -12,7 +12,7 @@ export default {
     tunnelMaterial: parseColor(styles.tunnelMaterialColor),
   },
   fog: {
-    near: 30,
+    near: 0,
     far: 50,
   },
   camera: {
@@ -25,10 +25,19 @@ export default {
     sectionRandomRadiusFactor: 0.1,
     sectionRandomZFactor: 0.8,
     sectionLength: 1,
-    length: 65,
+    length: 52,
   },
 };
 
+/**
+ * @param {string} cssString
+ * @returns {number}
+ */
 function parseColor(cssString) {
-  return parseInt(cssString.slice(1), 16);
+  let color = cssString.slice(1);
+  if (color.length === 3) {
+    // f4f -> ff44ff
+    color = [...color].map((x) => `${x}${x}`).join('');
+  }
+  return parseInt(color, 16);
 }

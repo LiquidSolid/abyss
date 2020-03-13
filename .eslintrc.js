@@ -1,15 +1,14 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    browser: true,
   },
-  'extends': [
+  extends: [
     'plugin:vue/recommended',
-    // 'eslint:recommended'
     '@vue/airbnb',
   ],
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 2020,
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -20,5 +19,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-restricted-syntax': 'off',
     'no-bitwise': 'off',
-  }
-}
+    'no-restricted-globals': 'off',
+    'no-unused-expressions': 'off',
+  },
+};

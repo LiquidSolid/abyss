@@ -1,83 +1,170 @@
 <template>
   <div class="the-intro">
-    <div class="the-intro__limit">
-      <div class="the-intro__logo">
-        AB<span class="y">Y</span>SS
-      </div>
+    <transition
+      appear
+      name="the-intro__transition"
+    >
+      <div class="the-intro__limit">
+        <div class="the-intro__logo">
+          AB<span class="y">Y</span>SS
+        </div>
 
-      <hr>
+        <hr>
 
-      <div class="the-intro__start-button-box">
-        <div
-          class="the-intro__start-button"
-          role="button"
-          @click="$emit('start', { antialiasing, postprocessing, stats })"
+        <div class="the-intro__start-button-box">
+          <div
+            class="the-intro__start-button"
+            role="button"
+            @click="$emit('start', { antialiasing, postprocessing, stats })"
+          >
+            СТАРТ
+          </div>
+        </div>
+
+        <hr>
+
+        <tabs
+          v-model="tab"
+          :items="['controls', 'settings']"
+          class="mt-4 mb-4"
         >
-          СТАРТ
-        </div>
-      </div>
-
-      <hr>
-
-      <div class="the-intro__list">
-        <div class="the-intro__info">
-          <div class="headline">
+          <template #controls>
             Управление
-          </div>
+          </template>
 
-          <div class="item">
-            <span class="key">F5</span> - вернуться в меню
-          </div>
-
-          <div class="item">
-            <span class="key">F11</span> - полноэкранный режим
-          </div>
-        </div>
-
-        <div class="the-intro__settings">
-          <div class="headline">
+          <template #settings>
             Настройки
+          </template>
+        </tabs>
+
+        <!-- {{ tab }} -->
+
+        <transition
+          name="the-intro__tabs-transition"
+          mode="out-in"
+        >
+          <div
+            v-if="tab === 'controls'"
+            key="controls"
+          >
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Вернуться в меню
+              </div>
+              <span class="key">F5</span>
+            </div>
+
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Полноэкранный режим
+              </div>
+              <span class="key">F11</span>
+            </div>
+
+            <div class="mb-8 d-flex align-center">
+              <div class="flex-grow-1">
+                Режим управления
+              </div>
+              <div class="d-flex align-center">
+                <span class="mr-2">
+                  левый дабл-клик
+                </span>
+                <icon :path="mdiMouse" />
+              </div>
+            </div>
+
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Движение камерой
+              </div>
+              <div class="d-flex align-center">
+                <span class="mr-2">
+                  движение мышью
+                </span>
+                <icon :path="mdiMouseVariant" />
+              </div>
+            </div>
+
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Вперёд
+              </div>
+              <span class="key">W</span>
+            </div>
+
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Назад
+              </div>
+              <span class="key">S</span>
+            </div>
+
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Остановиться
+              </div>
+              <span class="key">Space</span>
+            </div>
+
+            <div class="mb-2 d-flex align-center">
+              <div class="flex-grow-1">
+                Выход из режима управления
+              </div>
+              <span class="key">ESC</span>
+            </div>
           </div>
 
-          <switcher
-            v-model="antialiasing"
-            class="item"
+          <div
+            v-else-if="tab === 'settings'"
+            key="settings"
           >
-            Сглаживание
-          </switcher>
+            <switcher
+              v-model="antialiasing"
+              class="mb-4"
+            >
+              Сглаживание
+            </switcher>
 
-          <switcher
-            v-model="postprocessing"
-            class="item"
-          >
-            Постобработка
-          </switcher>
+            <switcher
+              v-model="postprocessing"
+              class="mb-4"
+              disabled
+            >
+              Постобработка
+            </switcher>
 
-          <switcher
-            v-model="stats"
-            class="item"
-          >
-            Статистика
-          </switcher>
-        </div>
+            <switcher
+              v-model="stats"
+            >
+              Статистика
+            </switcher>
+          </div>
+        </transition>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import { mdiMouse, mdiMouseVariant } from '@mdi/js';
 import Switcher from './Switcher';
+import Tabs from './TheIntroTabs';
+import Icon from './Icon';
 
 export default {
   name: 'TheIntro',
-  components: { Switcher },
+  components: { Switcher, Icon, Tabs },
   data: () => ({
     antialiasing: false,
     postprocessing: false,
     stats: false,
+
+    tab: 'controls',
+    mdiMouse,
+    mdiMouseVariant,
   }),
   created() {
-    Object.keys(this.$data).forEach((key) => {
+    ['stats', 'antialiasing', 'postprocessing'].forEach((key) => {
       this[key] = !!+window.localStorage.getItem(key);
       this.$watch(key, (val) => window.localStorage.setItem(key, +val));
     });
@@ -88,9 +175,22 @@ export default {
 <style lang="sass" scoped>
 @import '@/assets/styles'
 
+.alt1--text
+  color: $alt1
+
+.key
+  background: $primary
+  color: $background
+  min-width: 25px
+  padding: 5px
+  display: flex
+  align-items: center
+  justify-content: center
+
 .the-intro
   padding: 16px
   height: 100vh
+  overflow: auto
   background: $background
   display: flex
   // align-items: center
@@ -98,6 +198,7 @@ export default {
   &__limit
     width: 100%
     max-width: 650px
+    padding-bottom: 24px
   &__logo
     display: flex
     align-items: center
@@ -129,28 +230,19 @@ export default {
       transform: translate($x / 2, $x / 2)
       box-shadow: none
 
-  &__list
-    margin-top: 24px
-    display: grid
-    gap: 16px
-    grid-template-columns: repeat(auto-fit, (650px - 16px) / 2)
+  &__transition
+    &-enter-active
+      transition: all 0.45s ease
+    &-enter
+      opacity: 0
+      transform: translateZ(-30px)
 
-  &__info
-    .headline
-      margin-bottom: 16px
-    .item + .item
-      margin-top: 16px
-    .key
-      background: $primary
-      color: $background
-      padding: 5px
-
-  &__settings
-    color: $alt1
-    .headline
-      margin-bottom: 16px
-    .item + .item
-      margin-top: 16px
+  &__tabs-transition
+    &-enter-active
+      transition: $bounce-transition
+    &-enter
+      opacity: 0,
+      transform: translateY(-5px)
 
   hr
     border: none

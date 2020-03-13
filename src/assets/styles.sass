@@ -1,9 +1,11 @@
 $background: #363537
+$disabled: lighten($background, 35)
 $primary: #00ff7f
 $alt1: #2191FB
 $alt2: #DB3A34
 $abyss: #000000
 $tunnel-material-color: #ffffff
+$bounce-transition: all .15s cubic-bezier(.12,1.22,.45,1.36)
 
 :export
   primaryColor: $primary
@@ -28,3 +30,27 @@ body
 .headline
   font-size: 35px
 
+.subtitle
+  font-size: 14px
+  color: lighten($background, 50)
+
+// Формирование хэлперов типа mt-2 или pl-4
+@each $full, $short in ('bottom': 'b', 'left': 'l', 'right': 'r', 'top': 't')
+  @for $i from 1 through 8
+    $post: #{$short}-#{$i}
+    .m#{$post}
+      margin-#{$full}: 4px * $i
+    .p#{$post}
+      padding-#{$full}: 4px * $i
+
+.d-flex
+  display: flex
+
+.align-center
+  align-items: center
+
+.justify-center
+  justify-content: center
+
+.flex-grow-1
+  flex-grow: 1

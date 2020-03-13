@@ -1,7 +1,7 @@
 <template>
   <div
     class="the-intro-switcher"
-    :class="{ pushed: value }"
+    :class="{ disabled }"
     @click="$emit('input', !value)"
   >
     <slot />
@@ -32,9 +32,13 @@
 
 <script>
 export default {
-  name: 'TheIntroSwitcher',
+  name: 'Switcher',
   props: {
     value: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -46,11 +50,12 @@ export default {
 @import '@/assets/styles'
 
 .the-intro-switcher
-  border: 2px solid $alt1
-  color: $alt1
+  border: 2px solid $primary
+  color: $primary
   background: transparent
   padding: 10px 20px
   display: flex
+  width: 320px
   align-items: center
   // justify-content: center
   cursor: pointer
@@ -63,15 +68,20 @@ export default {
     transform: translate($x, $x)
     box-shadow: none
 
+  &.disabled
+    pointer-events: none
+    border-color: $disabled
+    color: $disabled
+
   &__spacer
     flex-grow: 1
 
   &__off
-    color: lighten($background, 20)
+    color: $disabled
 
   &__transition
     &-enter-active
-      transition: all .15s cubic-bezier(.12,1.22,.45,1.36)
+      transition: $bounce-transition
 
     &-enter
       opacity: 0

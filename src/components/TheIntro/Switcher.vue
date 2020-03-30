@@ -1,7 +1,7 @@
 <template>
   <div
-    class="the-intro-switcher"
-    :class="{ disabled }"
+    class="the-intro-switcher app-button"
+    :class="{ disabled, 'the-intro-switcher--active': value }"
     @click="$emit('input', !value)"
   >
     <slot />
@@ -50,28 +50,15 @@ export default {
 @import '@/assets/styles'
 
 .the-intro-switcher
-  border: 2px solid $primary
-  color: $primary
-  background: transparent
   padding: 10px 20px
   display: flex
   width: 320px
   align-items: center
-  // justify-content: center
-  cursor: pointer
-  user-select: none
-  font-size: 24px
-  $x: 3px
-  box-shadow: $x $x 0 black
-  // transform: translate(-$x / 2, -$x / 2)
-  &:active
-    transform: translate($x, $x)
-    box-shadow: none
 
-  &.disabled
-    pointer-events: none
-    border-color: $disabled
-    color: $disabled
+  color: $disabled
+
+  &--active
+    color: $primary
 
   &__spacer
     flex-grow: 1

@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <transition
-      name="root-transition"
+      name="intro-abyss-transition"
       mode="out-in"
     >
       <the-intro
         v-if="!started"
-        @start="params = $event, started = true"
+        @start="abyssParams = $event, started = true"
       />
       <the-abyss
         v-else
-        v-bind="params"
+        v-bind="abyssParams"
       />
     </transition>
   </div>
@@ -26,7 +26,7 @@ export default {
     TheAbyss: () => import(/* webpackChunkName: "abyss" */ './components/TheAbyss'),
   },
   data: () => ({
-    params: null,
+    abyssParams: null,
     started: false,
   }),
 };
@@ -37,17 +37,15 @@ export default {
 
 #app
   perspective: 1000px
-  overflow: hidden
 
-.root-transition
+.intro-abyss-transition
   &-leave-active
-    transition: all 0.3s ease
+    transition: all .3s ease
+  &-enter-active
+    transition: all .5s ease
+  &-enter
+    opacity: 0
   &-leave-to
     opacity: 0
-
-  &-enter-active
-    transition: all 3s ease
-  &-enter
-    transform: translateZ(200px)
-    opacity: 0
+    transform: translateZ(-30px)
 </style>

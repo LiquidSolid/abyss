@@ -13,8 +13,7 @@
 
         <div class="the-intro__start-button-box">
           <div
-            class="the-intro__start-button"
-            role="button"
+            class="app-button the-intro__start-button"
             @click="$emit('start', { antialiasing, postprocessing, stats })"
           >
             СТАРТ
@@ -39,14 +38,11 @@
 
         <!-- {{ tab }} -->
 
-        <transition
-          name="the-intro__tabs-transition"
-          mode="out-in"
+        <sequence-renderer
+          :duration="tab === 'controls' ? 350 : 100"
+          :content-key="tab"
         >
-          <div
-            v-if="tab === 'controls'"
-            key="controls"
-          >
+          <template v-if="tab === 'controls'">
             <div class="mb-2 d-flex align-center">
               <div class="flex-grow-1">
                 Вернуться в меню
@@ -112,12 +108,9 @@
               </div>
               <span class="key">ESC</span>
             </div>
-          </div>
+          </template>
 
-          <div
-            v-else-if="tab === 'settings'"
-            key="settings"
-          >
+          <template v-else-if="tab === 'settings'">
             <switcher
               v-model="antialiasing"
               class="mb-4"
@@ -125,21 +118,21 @@
               Сглаживание
             </switcher>
 
-            <switcher
+            <!-- <switcher
               v-model="postprocessing"
               class="mb-4"
               disabled
             >
               Постобработка
-            </switcher>
+            </switcher> -->
 
             <switcher
               v-model="stats"
             >
               Статистика
             </switcher>
-          </div>
-        </transition>
+          </template>
+        </sequence-renderer>
       </div>
     </transition>
   </div>
@@ -148,12 +141,18 @@
 <script>
 import { mdiMouse, mdiMouseVariant } from '@mdi/js';
 import Switcher from './Switcher';
-import Tabs from './TheIntroTabs';
+import Tabs from './Tabs';
 import Icon from './Icon';
+import SequenceRenderer from './ListSequenceRenderer';
 
 export default {
   name: 'TheIntro',
-  components: { Switcher, Icon, Tabs },
+  components: {
+    Switcher,
+    Icon,
+    Tabs,
+    SequenceRenderer,
+  },
   data: () => ({
     antialiasing: false,
     postprocessing: false,
@@ -182,10 +181,11 @@ export default {
   background: $primary
   color: $background
   min-width: 25px
-  padding: 5px
+  padding: 2px 5px
   display: flex
   align-items: center
   justify-content: center
+  border-radius: 4px
 
 .the-intro
   padding: 16px
@@ -195,6 +195,7 @@ export default {
   display: flex
   // align-items: center
   justify-content: center
+  perspective: 1000px
   &__limit
     width: 100%
     max-width: 650px
@@ -214,21 +215,21 @@ export default {
     padding: 50px 0
 
   &__start-button
-    border: 2px solid $primary
+    // border: 2px solid $primary
     padding: 20px 40px
     display: flex
     align-items: center
     justify-content: center
-    cursor: pointer
-    background: $background
-    user-select: none
+    // cursor: pointer
+    // background: $background
+    // user-select: none
     font-size: 30px
-    $x: 3px
-    box-shadow: $x $x 0 black
-    transform: translate(-$x / 2, -$x / 2)
-    &:active
-      transform: translate($x / 2, $x / 2)
-      box-shadow: none
+    // $x: 3px
+    // box-shadow: $x $x 0 black
+    // transform: translate(-$x / 2, -$x / 2)
+    // &:active
+    //   transform: translate($x / 2, $x / 2)
+    //   box-shadow: none
 
   &__transition
     &-enter-active
@@ -237,12 +238,19 @@ export default {
       opacity: 0
       transform: translateZ(-30px)
 
-  &__tabs-transition
-    &-enter-active
-      transition: $bounce-transition
-    &-enter
-      opacity: 0,
-      transform: translateY(-5px)
+  // &__tabs-transition
+  //   &-enter-active
+  //     // transition: $bounce-transition
+  //     transition-duration: 1s
+  //     @for $i from 1 through 10
+  //       & > *:nth-child(#{$i})
+  //         transition: all .15s ease
+  //         // transition-duration: 10s
+  //         transition-delay: $i * .05s
+  //   &-enter
+  //     & > *
+  //       opacity: 0
+  //       // transform: translateY(-5px)
 
   hr
     border: none

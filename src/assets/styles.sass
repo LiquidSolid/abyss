@@ -5,7 +5,8 @@ $alt1: #2191FB
 $alt2: #DB3A34
 $abyss: #000000
 $tunnel-material-color: #ffffff
-$bounce-transition: all .15s cubic-bezier(.12,1.22,.45,1.36)
+$bounce-timing-function: cubic-bezier(.12,1.22,.45,1.36)
+$bounce-transition: all .15s $bounce-timing-function
 
 :export
   primaryColor: $primary
@@ -54,3 +55,29 @@ body
 
 .flex-grow-1
   flex-grow: 1
+
+.app-button
+  position: relative
+  border-radius: 4px
+  cursor: pointer
+  background: lighten($background, 10)
+  user-select: none
+  font-size: 20px
+  $x: 5px
+  box-shadow: 0 $x 0 darken($background, 10)
+  // transform: translateY(-$x / 2)
+  &:active
+    transform: translateY($x)
+    box-shadow: none
+  &:after
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: -$x
+    border: 1px solid darken($background, 20)
+    border-radius: 4px
+  &:active:after
+    bottom: 0
+

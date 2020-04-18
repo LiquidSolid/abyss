@@ -43,8 +43,7 @@ export default {
     transition: all .3s $ease-in-out-quart
   &-enter-active
     transition: all 2.3s $ease-in-out-quart
-  &-enter
-    opacity: 0
+  &-enter,
   &-leave-to
     opacity: 0
     transform: translateZ(-30px)

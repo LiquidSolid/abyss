@@ -2,7 +2,7 @@
   <div class="the-intro">
     <transition
       appear
-      name="the-intro__transition"
+      name="the-intro__appear-transition"
     >
       <div class="the-intro__limit">
         <div class="the-intro__logo">
@@ -16,7 +16,7 @@
             class="app-button the-intro__start-button"
             @click="$emit('start', { antialiasing, postprocessing, stats })"
           >
-            СТАРТ
+            Вход
           </div>
         </div>
 
@@ -38,112 +38,127 @@
 
         <!-- {{ tab }} -->
 
-        <sequence-renderer
-          :duration="tab === 'controls' ? 350 : 100"
-          :content-key="tab"
+        <transition
+          name="the-intro__tabs-transition"
+          @before-leave="beforeLeave"
         >
-          <template v-if="tab === 'controls'">
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Вернуться в меню
+          <div :key="tab">
+            <template v-if="tab === 'controls'">
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Вернуться в меню
+                </div>
+                <span class="key">F5</span>
               </div>
-              <span class="key">F5</span>
-            </div>
 
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Полноэкранный режим
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Полноэкранный режим
+                </div>
+                <span class="key">F11</span>
               </div>
-              <span class="key">F11</span>
-            </div>
 
-            <div class="mb-8 d-flex align-center">
-              <div class="flex-grow-1">
-                Режим управления
+              <div class="mb-8 d-flex align-center">
+                <div class="flex-grow-1">
+                  Режим управления
+                </div>
+                <div class="d-flex align-center">
+                  <span class="mr-2">
+                    левый дабл-клик
+                  </span>
+                  <icon :path="mdiMouse" />
+                </div>
               </div>
-              <div class="d-flex align-center">
-                <span class="mr-2">
-                  левый дабл-клик
-                </span>
-                <icon :path="mdiMouse" />
+
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Движение камерой
+                </div>
+                <div class="d-flex align-center">
+                  <span class="mr-2">
+                    движение мышью
+                  </span>
+                  <icon :path="mdiMouseVariant" />
+                </div>
               </div>
-            </div>
 
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Движение камерой
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Вперёд
+                </div>
+                <span class="key">W</span>
               </div>
-              <div class="d-flex align-center">
-                <span class="mr-2">
-                  движение мышью
-                </span>
-                <icon :path="mdiMouseVariant" />
+
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Назад
+                </div>
+                <span class="key">S</span>
               </div>
-            </div>
 
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Вперёд
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Остановиться
+                </div>
+                <span class="key">Space</span>
               </div>
-              <span class="key">W</span>
-            </div>
 
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Назад
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Ускориться
+                </div>
+                <div class="key d-flex align-center">
+                  <icon
+                    :path="mdiArrowUpBold"
+                    color="background"
+                    size="16"
+                  />
+                  Shift
+                </div>
               </div>
-              <span class="key">S</span>
-            </div>
 
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Остановиться
+              <div class="mb-2 d-flex align-center">
+                <div class="flex-grow-1">
+                  Выход из режима управления
+                </div>
+                <span class="key">ESC</span>
               </div>
-              <span class="key">Space</span>
-            </div>
+            </template>
 
-            <div class="mb-2 d-flex align-center">
-              <div class="flex-grow-1">
-                Выход из режима управления
-              </div>
-              <span class="key">ESC</span>
-            </div>
-          </template>
+            <template v-else-if="tab === 'settings'">
+              <switcher
+                v-model="antialiasing"
+                class="mb-4"
+              >
+                Сглаживание
+              </switcher>
 
-          <template v-else-if="tab === 'settings'">
-            <switcher
-              v-model="antialiasing"
-              class="mb-4"
-            >
-              Сглаживание
-            </switcher>
+              <!-- <switcher
+                v-model="postprocessing"
+                class="mb-4"
+                disabled
+              >
+                Постобработка
+              </switcher> -->
 
-            <!-- <switcher
-              v-model="postprocessing"
-              class="mb-4"
-              disabled
-            >
-              Постобработка
-            </switcher> -->
-
-            <switcher
-              v-model="stats"
-            >
-              Статистика
-            </switcher>
-          </template>
-        </sequence-renderer>
+              <switcher
+                v-model="stats"
+              >
+                Статистика
+              </switcher>
+            </template>
+          </div>
+        </transition>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-import { mdiMouse, mdiMouseVariant } from '@mdi/js';
+import { mdiMouse, mdiMouseVariant, mdiArrowUpBold } from '@mdi/js';
 import Switcher from './Switcher';
 import Tabs from './Tabs';
 import Icon from './Icon';
-import SequenceRenderer from './ListSequenceRenderer';
 
 export default {
   name: 'TheIntro',
@@ -151,7 +166,6 @@ export default {
     Switcher,
     Icon,
     Tabs,
-    SequenceRenderer,
   },
   data: () => ({
     antialiasing: false,
@@ -161,12 +175,19 @@ export default {
     tab: 'controls',
     mdiMouse,
     mdiMouseVariant,
+    mdiArrowUpBold,
   }),
   created() {
     ['stats', 'antialiasing', 'postprocessing'].forEach((key) => {
       this[key] = !!+window.localStorage.getItem(key);
       this.$watch(key, (val) => window.localStorage.setItem(key, +val));
     });
+  },
+  methods: {
+    beforeLeave(el) {
+      el.style.position = 'absolute';
+      el.style.width = '100%';
+    },
   },
 };
 </script>
@@ -200,6 +221,7 @@ export default {
     width: 100%
     max-width: 650px
     padding-bottom: 24px
+    position: relative
   &__logo
     display: flex
     align-items: center
@@ -215,42 +237,28 @@ export default {
     padding: 50px 0
 
   &__start-button
-    // border: 2px solid $primary
     padding: 20px 40px
     display: flex
     align-items: center
     justify-content: center
-    // cursor: pointer
-    // background: $background
-    // user-select: none
     font-size: 30px
-    // $x: 3px
-    // box-shadow: $x $x 0 black
-    // transform: translate(-$x / 2, -$x / 2)
-    // &:active
-    //   transform: translate($x / 2, $x / 2)
-    //   box-shadow: none
 
-  &__transition
+  &__appear-transition
     &-enter-active
-      transition: all 0.45s ease
+      transition: all 0.45s $ease-out-cubic
     &-enter
       opacity: 0
       transform: translateZ(-30px)
 
-  // &__tabs-transition
-  //   &-enter-active
-  //     // transition: $bounce-transition
-  //     transition-duration: 1s
-  //     @for $i from 1 through 10
-  //       & > *:nth-child(#{$i})
-  //         transition: all .15s ease
-  //         // transition-duration: 10s
-  //         transition-delay: $i * .05s
-  //   &-enter
-  //     & > *
-  //       opacity: 0
-  //       // transform: translateY(-5px)
+  &__tabs-transition
+    &-leave-active, &-enter-active
+      transition: all .3s $ease-out-expo
+    &-leave-to
+      opacity: 0
+      transform: translateX(30px)
+    &-enter
+      opacity: 0
+      transform: translateX(-30px)
 
   hr
     border: none

@@ -9,12 +9,12 @@ export default {
   },
   fog: {
     near: 0,
-    far: 65,
+    far: 55,
   },
   lights: {
     distanceFromCamera: 70,
-    distance: 50,
-    intensity: 1,
+    distance: [80, 150],
+    intensity: [0.5, 3.5],
     decay: 1,
   },
   player: {
@@ -29,10 +29,11 @@ export default {
     // Длина одной секции абсолютная
     sectionLength: 1,
     // В каждую сторону
-    visibleSectionsCount: 70,
+    visibleSectionsCount: 80,
     sectionRadius: 5,
     sectionPointsCount: 40,
     sectionPointRandomRadius: 1.5,
+    rotationSpeed: [0, 0],
   },
 };
 
@@ -46,7 +47,9 @@ function parseColor(cssString) {
   let color = cssString.slice(1);
   if (color.length === 3) {
     // f4f -> ff44ff
-    color = [...color].map((x) => `${x}${x}`).join('');
+    color = [...color]
+      .map((x) => `${x}${x}`)
+      .join('');
   }
   return parseInt(color, 16);
 }

@@ -45,12 +45,8 @@ export default function (core) {
 
     const forward = keyboard.isPressed('KeyW');
     const backward = keyboard.isPressed('KeyS');
-    // const left = keyboard.isPressed('KeyA');
-    // const right = keyboard.isPressed('KeyD');
     const stop = keyboard.isPressed('Space');
-    // const down = keyboard.isPressed('KeyC');
-
-    // let positionUpdated = false;
+    const shift = keyboard.isPressed('ShiftLeft');
 
     if (stop) {
       moveSpeed.target = 0;
@@ -59,7 +55,7 @@ export default function (core) {
       const moveDir = new Vector3().setFromSphericalCoords(
         config.player.moveSpeed, lat.value, lon.value,
       );
-      moveSpeed.target = (forward ? 1 : -1) * moveDir.z;
+      moveSpeed.target = (forward ? 1 : -1) * moveDir.z * (shift ? 3 : 1);
       moveSpeed.speed = config.player.moveInertialSpeed;
     } else {
       moveSpeed.target = 0;

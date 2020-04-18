@@ -7,6 +7,7 @@ import {
   BufferGeometry,
 } from 'three';
 import config from './config';
+// import InertialSetter from './InertialSetter';
 
 const SECTION_POSITIONS_COUNT = config.formation.sectionPointsCount * 6 * 3;
 const POSITIONS_SIZE = SECTION_POSITIONS_COUNT * config.formation.visibleSectionsCount * 2;
@@ -37,6 +38,9 @@ export default function (core) {
       'position',
       new BufferAttribute(new Float32Array(POSITIONS_SIZE), 3),
     );
+
+  // const rotation = new InertialSetter(0, 0.5);
+  // let updateRotationElapsedTime = 0;
 
   // Формирую первую секцию, от неё все остальные
   /**
@@ -85,8 +89,24 @@ export default function (core) {
     go(steps);
   });
 
+  // core.listen('tick', ({ timeDelta }) => {
+  //   // console.log('tick', timeDelta);
+  //   updateRotationElapsedTime -= timeDelta;
+  //   if (updateRotationElapsedTime <= 0) {
+  //     const [min, max] = config.formation.rotationSpeed;
+  //     // console.log('update', rotation.target);
+  //     rotation.target = min + (max - min) * Math.random();
+  //     // rotation.target *= Math.random() > 0.5 ? 1 : -1;
+  //     // console.log(rotation.target);
+  //     updateRotationElapsedTime = 5 + Math.random() * 20;
+  //   }
+
+  //   rotation.tick(timeDelta);
+  //   mesh.rotation.z += rotation.value * timeDelta;
+  // });
+
   // Создаю сам объект на сцену и возвращаю
-  return new Mesh(
+  const mesh = new Mesh(
     geometry,
     new MeshPhongMaterial({
       color: config.colors.tunnelMaterial,
@@ -96,6 +116,7 @@ export default function (core) {
     // new MeshNormalMaterial({ wireframe: false }),
   );
 
+  return mesh;
 
   function go(steps) {
     if (!steps) {

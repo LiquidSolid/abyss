@@ -68,7 +68,7 @@ export default {
 
   &__transition
     &-enter-active
-      transition: $bounce-transition
+      transition: all .2s $ease-out-back
 
     &-enter
       opacity: 0

@@ -13,6 +13,7 @@ export default function (core) {
   // Сцена
   const scene = new Scene();
   scene.fog = new Fog(
+    // 0,
     config.colors.primary,
     config.fog.near,
     config.fog.far,

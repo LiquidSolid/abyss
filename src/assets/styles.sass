@@ -8,6 +8,11 @@ $tunnel-material-color: #ffffff
 $bounce-timing-function: cubic-bezier(.12,1.22,.45,1.36)
 $bounce-transition: all .15s $bounce-timing-function
 
+$ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1)
+$ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1)
+$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1)
+$ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1)
+
 :export
   primaryColor: $primary
   altColor1: $alt1
@@ -76,7 +81,7 @@ body
     left: 0
     right: 0
     bottom: -$x
-    border: 1px solid darken($background, 20)
+    border: 1px solid darken($primary, 10) //lighten($background, 20)
     border-radius: 4px
   &:active:after
     bottom: 0

@@ -1,17 +1,40 @@
 <script>
 export default {
   functional: true,
+  props: {
+    /**
+     * Путь в <path :d="value" />
+     */
+    path: {
+      type: String,
+      required: true,
+    },
+    /**
+     * Размер иконки
+     */
+    size: {
+      type: [String, Number],
+      default: 24,
+    },
+    /**
+     * Цвет. Может быть primary и background
+     */
+    color: {
+      type: String,
+      default: 'primary',
+    },
+  },
   render(h, context) {
-    const { path, size = 24 } = context.props;
+    const svgPath = h('path', { attrs: { d: context.props.path } });
 
-    const svgPath = h('path', { attrs: { d: path } });
     return h('svg', {
-      staticClass: 'icon',
+      ...context.data,
+      staticClass: `icon--${context.props.color}`,
       attrs: {
         xmlns: 'http://www.w3.org/2000/svg',
         viewBox: '0 0 24 24',
-        width: size,
-        height: size,
+        width: context.props.size,
+        height: context.props.size,
       },
     }, [svgPath]);
   },
@@ -21,6 +44,9 @@ export default {
 <style lang="sass">
 @import '@/assets/styles'
 
-svg.icon path
-  fill: $primary
+svg.icon
+  &--primary path
+    fill: $primary
+  &--background path
+    fill: $background
 </style>

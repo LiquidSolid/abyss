@@ -40,9 +40,9 @@ export default {
 
 .intro-abyss-transition
   &-leave-active
-    transition: all .3s ease
+    transition: all .3s $ease-in-out-quart
   &-enter-active
-    transition: all .5s ease
+    transition: all 2.3s $ease-in-out-quart
   &-enter
     opacity: 0
   &-leave-to

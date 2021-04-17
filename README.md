@@ -2,8 +2,8 @@
 
 Посмотреть можно здесь:
 
-https://liquidsolid.github.io/abyss/
+https://0x009922.github.io/abyss/
 
 Является репродукцией вот этого:
 
-https://liquidsolid.github.io/WebGL-Practice/html/Abyss.html
+https://0x009922.github.io/WebGL-Practice/html/Abyss.html
